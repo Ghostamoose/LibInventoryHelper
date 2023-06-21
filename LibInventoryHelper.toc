@@ -1,0 +1,10 @@
+## Interface: 100100
+## Title: |cff8442f5LibInventoryHelper|r
+## Notes: A collection of cadaverous tools for the discerning necromancer. Err... inventory user.
+## Author: Ghostopheles
+## Version: 1
+
+## X-Website: https://kivatech.io
+
+LibStub.lua
+LibInventoryHelper.lua
