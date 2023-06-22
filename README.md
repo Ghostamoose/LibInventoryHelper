@@ -15,4 +15,4 @@ print(hasRoom)
 --- returns true
 ```
 
-For full documentation, see the wiki.
+For full documentation, see the [wiki](https://github.com/Ghostamoose/LibInventoryHelper/wiki).
