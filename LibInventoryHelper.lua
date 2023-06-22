@@ -69,12 +69,12 @@ end
 
 ---Checks if a given itemID is in the player's inventory, checking all equipped bags
 ---@param itemID number
----@param includeBank? boolean
----@param includeReagentBank? boolean
 ---@return boolean
 ---@return ItemLocationMixin?
-function InventoryHelper.IsItemIDInInventory(itemID, includeBank, includeReagentBank)
+function InventoryHelper.IsItemIDInInventory(itemID)
+    local includeBank = false;
     local includeUses = false;
+    local includeReagentBank = false;
     if GetItemCount(itemID, includeBank, includeUses, includeReagentBank) > 0 then
         for bag = Enum.BagIndex.Backpack, NUM_TOTAL_BAG_FRAMES do
             local isInBag, itemLoc = InventoryHelper.IsItemIDInBag(bag, itemID);
@@ -90,7 +90,7 @@ end
 ---@param itemID number
 ---@return ItemLocationMixin?
 function InventoryHelper.GetItemLocationFromItemID(itemID)
-    local inBag, itemLoc = InventoryHelper.IsItemIDInInventory(itemID, false, false);
+    local inBag, itemLoc = InventoryHelper.IsItemIDInInventory(itemID);
     if inBag and (itemLoc and itemLoc:IsValid()) then
         return itemLoc;
     end
@@ -98,11 +98,11 @@ end
 
 ---Filters a list of itemIDs and returns a list containing only the itemIDs that are in the player's inventory, along with their ItemLocation
 ---@param itemIDs table<number>
----@param includeBank? boolean
----@param includeReagentBank? boolean
 ---@return table<table<number, ItemLocationMixin>>?
-function InventoryHelper.FilterOwnedItemsByItemID(itemIDs, includeBank, includeReagentBank)
+function InventoryHelper.FilterOwnedItemsByItemID(itemIDs)
+    local includeBank = false;
     local includeUses = false;
+    local includeReagentBank = false;
 
     local ownedItems = {};
     for _, itemID in ipairs(itemIDs) do
