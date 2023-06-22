@@ -1,3 +1,5 @@
+assert(LibStub, "LibStub not found.");
+
 local major, minor = "LibInventoryHelper", 1;
 
 --- @class LibInventoryHelper
