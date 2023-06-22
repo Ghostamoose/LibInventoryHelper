@@ -1,6 +1,6 @@
 # LibInventoryHelper
 
-A simple library to help with common inventory tasks. Requires LibStub.
+A simple library to help with common inventory tasks. Requires [LibStub](https://www.curseforge.com/wow/addons/libstub).
 
 ## Usage
 
