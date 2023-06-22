@@ -108,7 +108,6 @@ function InventoryHelper.FilterOwnedItemsByItemID(itemIDs)
     local itemIDsInInventory = InventoryHelper.GetAllItemsInInventoryByID();
     for _, itemID in ipairs(itemIDs) do
         if itemIDsInInventory[itemID] then
-            print(itemID)
             ownedItems[itemID] = itemIDsInInventory[itemID];
         end
     end
