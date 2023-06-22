@@ -50,17 +50,11 @@ end
 ---@return boolean
 ---@return ItemLocationMixin?
 function InventoryHelper.IsItemIDInBag(bag, itemID)
-    local includeBank = false;
-    local includeUses = false;
-    local includeReagentBank = false;
-
-    if GetItemCount(itemID, includeBank, includeUses, includeReagentBank) > 0 then
-        for slot = 1, ContainerFrame_GetContainerNumSlots(bag) do
-            local itemLoc = ItemLocation:CreateFromBagAndSlot(bag, slot);
-            if C_Item.DoesItemExist(itemLoc) then
-                if C_Item.GetItemID(itemLoc) == itemID then
-                    return true, itemLoc;
-                end
+    for slot = 1, C_Container.GetContainerNumSlots(bag) do
+        local itemLoc = ItemLocation:CreateFromBagAndSlot(bag, slot);
+        if C_Item.DoesItemExist(itemLoc) then
+            if C_Item.GetItemID(itemLoc) == itemID then
+                return true, itemLoc;
             end
         end
     end
@@ -72,15 +66,10 @@ end
 ---@return boolean
 ---@return ItemLocationMixin?
 function InventoryHelper.IsItemIDInInventory(itemID)
-    local includeBank = false;
-    local includeUses = false;
-    local includeReagentBank = false;
-    if GetItemCount(itemID, includeBank, includeUses, includeReagentBank) > 0 then
-        for bag = Enum.BagIndex.Backpack, NUM_TOTAL_BAG_FRAMES do
-            local isInBag, itemLoc = InventoryHelper.IsItemIDInBag(bag, itemID);
-            if isInBag then
-                return true, itemLoc;
-            end
+    for bag = Enum.BagIndex.Backpack, NUM_TOTAL_BAG_FRAMES do
+        local isInBag, itemLoc = InventoryHelper.IsItemIDInBag(bag, itemID);
+        if isInBag then
+            return true, itemLoc;
         end
     end
     return false;
@@ -96,30 +85,34 @@ function InventoryHelper.GetItemLocationFromItemID(itemID)
     end
 end
 
+---Returns a table, keyed by itemID, of all items in the player's inventory. I know keying by itemID is horrifying, but it's fast.
+---@return table<number, ItemLocationMixin>
+function InventoryHelper.GetAllItemsInInventoryByID()
+    local itemIDs = {};
+    for bag = Enum.BagIndex.Backpack, NUM_TOTAL_BAG_FRAMES do
+        for slot = 1, C_Container.GetContainerNumSlots(bag) do
+            local itemLoc = ItemLocation:CreateFromBagAndSlot(bag, slot);
+            if C_Item.DoesItemExist(itemLoc) then
+                itemIDs[C_Item.GetItemID(itemLoc)] = itemLoc;
+            end
+        end
+    end
+    return itemIDs;
+end
+
 ---Filters a list of itemIDs and returns a list containing only the itemIDs that are in the player's inventory, along with their ItemLocation
 ---@param itemIDs table<number>
 ---@return table<table<number, ItemLocationMixin>>?
 function InventoryHelper.FilterOwnedItemsByItemID(itemIDs)
-    local includeBank = false;
-    local includeUses = false;
-    local includeReagentBank = false;
-
     local ownedItems = {};
+    local itemIDsInInventory = InventoryHelper.GetAllItemsInInventoryByID();
     for _, itemID in ipairs(itemIDs) do
-        if GetItemCount(itemID, includeBank, includeUses, includeReagentBank) > 0 then
-            local isInInventory, itemLoc = InventoryHelper.IsItemIDInInventory(itemID);
-            if isInInventory then
-                local itemTable = {
-                    id = itemID,
-                    location = itemLoc
-                }
-                tinsert(ownedItems, itemTable);
-            end
+        if itemIDsInInventory[itemID] then
+            print(itemID)
+            ownedItems[itemID] = itemIDsInInventory[itemID];
         end
     end
-    if #ownedItems > 0 then
-        return ownedItems;
-    end
+    return ownedItems;
 end
 
 ---Returns a bagID and slot index for a given itemGUID, if it exists in the player's inventory. Returns the first instance of the item in bags, if it's been split.
