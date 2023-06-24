@@ -1,1 +1,3 @@
+LibStub
 LibStub/*
+.vscode
