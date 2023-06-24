@@ -2,7 +2,7 @@
 ## Title: Lib: LibInventoryHelper
 ## Notes: A collection of cadaverous tools for the discerning necromancer. Err... inventory user.
 ## Author: Ghostopheles
-## Version: 1
+## Version: @project-version@
 ## IconAtlas: minortalents-icon-book
 
 ## OptionalDeps: LibStub
@@ -10,6 +10,9 @@
 ## X-License: Public Domain
 ## X-Category: Library
 ## X-Website: https://kivatech.io
+
+## X-Curse-Project-ID: 880198
+## X-Wago-ID: ZKxqZkGk
 
 LibStub/LibStub.lua
 LibInventoryHelper.lua
