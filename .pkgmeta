@@ -16,6 +16,7 @@ ignore:
   - LibStub/README.*
   - LibStub/tests
   - LibStub/.pkgmeta
+  - .gitignore
   - CHANGELOG.md
   - README.md
 
