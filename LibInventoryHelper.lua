@@ -44,7 +44,8 @@ function InventoryHelper.Profile(func, ...)
     return unpack(results);
 end
 
----Checks if a given itemID is in a given bag
+---Checks if a given itemID is in a given bag and returns true/false and the ItemLocation, if possible
+---@private
 ---@param bag number
 ---@param itemID number
 ---@return boolean
@@ -62,6 +63,7 @@ function InventoryHelper.IsItemIDInBag(bag, itemID)
 end
 
 ---Checks if a given itemID is in the player's inventory, checking all equipped bags
+---@private
 ---@param itemID number
 ---@return boolean
 ---@return ItemLocationMixin?
